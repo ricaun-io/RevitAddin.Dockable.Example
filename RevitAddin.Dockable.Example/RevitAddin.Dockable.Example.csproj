@@ -113,12 +113,6 @@
 
   <ItemGroup>
     <PackageReference Include="ricaun.Revit.UI" Version="*" />
-    <PackageReference Include="ricaun.Revit.Mvvm" Version="*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Revit\App.cs" />
-    <None Include="Revit\Commands\CommandHide.cs" />
   </ItemGroup>
 
   <ItemGroup>
