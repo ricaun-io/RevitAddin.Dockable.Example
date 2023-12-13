@@ -56,6 +56,10 @@ DockablePane dockablePane = App.DockablePaneService.Get<DockablePage>();
 ## Installation
 
 * Download and install [RevitAddin.Dockable.Example.exe](../../releases/latest/download/RevitAddin.Dockable.Example.zip)
+* 
+## RevitAddin.Dockable.Example
+
+![RevitAddin.Dockable.Example](https://github.com/ricaun-io/RevitAddin.Dockable.Example/assets/12437519/ead73dc2-5159-49dc-8de9-6fc2ac9e414f)
 
 ## License
 
