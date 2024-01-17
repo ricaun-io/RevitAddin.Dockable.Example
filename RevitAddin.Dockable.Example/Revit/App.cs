@@ -13,36 +13,63 @@ namespace RevitAddin.Dockable.Example.Revit
     public class App : IExternalApplication
     {
         public static DockablePaneService DockablePaneService;
+        public static DockablePaneCreatorService DockablePaneCreatorService;
         private static RibbonPanel ribbonPanel;
         public Result OnStartup(UIControlledApplication application)
         {
             DockablePaneService = new DockablePaneService(application);
+
+            DockablePaneCreatorService = new DockablePaneCreatorService(application);
+            DockablePaneCreatorService.Initialize();
+
+
             application.ControlledApplication.ApplicationInitialized += (sender, args) =>
             {
                 DockablePaneService.Register<DockablePage>(DockablePage.Guid);
 
-                var page = new DockablePage();
-                page.Loaded += (sender, args) =>
+                Action<DockablePaneProviderData> Tabbed = (data) =>
                 {
-                    Task.Run(async () =>
-                    {
-                        for (int i = 0; i < 60; i++)
-                        {
-                            await Task.Delay(1000);
-                            page.Number++;
-                        }
-                    });
-                };
-                var dockCreator = new DockablePaneProviderCreator(page, (data) =>
-                {
-                    data.VisibleByDefault = false;
+                    data.VisibleByDefault = true;
                     data.InitialState = new DockablePaneState
                     {
                         DockPosition = DockPosition.Tabbed,
                     };
-                });
+                };
 
-                DockablePaneService.Register(DockablePage.Guid2, "DockablePage2", dockCreator);
+                // DockablePage2
+                {
+                    var page = new DockablePage();
+                    //page.Loaded += (sender, args) =>
+                    //{
+                    //    Task.Run(async () =>
+                    //    {
+                    //        for (int i = 0; i < 10; i++)
+                    //        {
+                    //            await Task.Delay(10000);
+                    //            page.Number++;
+                    //        }
+                    //    });
+                    //};
+                    var dockCreator = new DockablePaneProviderCreator(page, Tabbed);
+
+                    DockablePaneService.Register(DockablePage.Guid2, "DockablePage2", dockCreator);
+                }
+
+                {
+                    var page = new DockablePage();
+                    page.Loaded += (sender, args) =>
+                    {
+                        Task.Run(async () =>
+                        {
+                            for (int i = 0; i < 60; i++)
+                            {
+                                await Task.Delay(1000);
+                                page.Number++;
+                            }
+                        });
+                    };
+                    DockablePaneCreatorService.Register(DockablePage.Guid3, "DockablePage3", page, Tabbed);
+                }
             };
 
             ribbonPanel = application.CreatePanel("Dockable");
@@ -68,12 +95,14 @@ namespace RevitAddin.Dockable.Example.Revit
 
         private void Application_DockableFrameVisibilityChanged(object sender, Autodesk.Revit.UI.Events.DockableFrameVisibilityChangedEventArgs e)
         {
-            Console.WriteLine($"{e.PaneId} {e.DockableFrameShown}");
+            //Console.WriteLine($"{e.PaneId} {e.DockableFrameShown}");
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
             ribbonPanel?.Remove();
+
+            DockablePaneCreatorService.Dispose();
 
             application.DockableFrameVisibilityChanged -= Application_DockableFrameVisibilityChanged;
 

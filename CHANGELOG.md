@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.1] / 2024-01-17
 - Add `DockablePaneProviderCreator`
+- Add `DockablePaneCreatorService` with auto `Visibility` event in the `FrameworkElement`.
 
 ## [1.0.0] / 2023-12-13
 - Add `DockablePaneService`

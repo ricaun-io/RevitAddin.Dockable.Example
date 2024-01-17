@@ -9,7 +9,8 @@ namespace RevitAddin.Dockable.Example.Views
     public partial class DockablePage : Page, IDockablePaneProvider
     {
         public static Guid Guid => new Guid("F1F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
-        public static Guid Guid2 => new Guid("21F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
+        public static Guid Guid2 => new Guid("F2F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
+        public static Guid Guid3 => new Guid("F3F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
         public DockablePage()
         {
             this.Loaded += (s, e) => { Console.WriteLine($"Loaded:\t {this.GetHashCode()}"); };
