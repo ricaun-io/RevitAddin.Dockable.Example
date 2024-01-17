@@ -85,7 +85,7 @@
 
   <PropertyGroup>
     <PackageId>RevitAddin.Dockable.Example</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <ProjectGuid>{37680B66-998C-46DB-BD30-911299820F2C}</ProjectGuid>
   </PropertyGroup>
 

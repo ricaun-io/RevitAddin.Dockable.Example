@@ -10,6 +10,7 @@
       Background="WhiteSmoke">
 
     <Grid Margin="8">
+        <TextBlock Text="{Binding Number}"></TextBlock>
         <Button Height="120"
                 Width="120"
                 Click="Button_Click">

@@ -5,11 +5,17 @@ using System.Windows.Controls;
 
 namespace RevitAddin.Dockable.Example.Views
 {
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
     public partial class DockablePage : Page, IDockablePaneProvider
     {
         public static Guid Guid => new Guid("F1F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
+        public static Guid Guid2 => new Guid("21F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
         public DockablePage()
         {
+            this.Loaded += (s, e) => { Console.WriteLine($"Loaded:\t {this.GetHashCode()}"); };
+            this.Unloaded += (s, e) => { Console.WriteLine($"Unloaded:\t {this.GetHashCode()}"); };
+            this.IsVisibleChanged += (s, e) => { Console.WriteLine($"IsVisibleChanged:\t {this.GetHashCode()} \t{this.IsVisible}"); };
+
             InitializeComponent();
         }
 
@@ -23,7 +29,11 @@ namespace RevitAddin.Dockable.Example.Views
             };
         }
 
-        private int Number { get; set; }
+        public int Number { get; set; }
+        public void OnNumberChanged()
+        {
+            Console.WriteLine($"OnNumberChanged: \t{Number}");
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
