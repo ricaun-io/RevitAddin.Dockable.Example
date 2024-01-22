@@ -44,26 +44,26 @@ namespace RevitAddin.Dockable.Example.Services
             var paneId = e.PaneId;
             if (GetFrameworkElement(paneId) is UIElement element)
             {
-                element.Visibility = e.DockableFrameShown ? Visibility.Visible : Visibility.Hidden;
+                //element.Visibility = e.DockableFrameShown ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
-        public DockablePane Register<T>(Guid guid, T element) where T : FrameworkElement
+        public bool Register<T>(Guid guid, T element) where T : FrameworkElement
         {
             return Register(guid, null, element, null);
         }
 
-        public DockablePane Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
+        public bool Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
         {
             return Register(guid, null, element, config);
         }
 
-        public DockablePane Register<T>(Guid guid, string title, T element) where T : FrameworkElement
+        public bool Register<T>(Guid guid, string title, T element) where T : FrameworkElement
         {
             return Register(guid, title, element, null);
         }
 
-        public DockablePane Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
+        public bool Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
         {
             var dpid = new DockablePaneId(guid);
             if (DockablePane.PaneIsRegistered(dpid) == false)
@@ -83,7 +83,7 @@ namespace RevitAddin.Dockable.Example.Services
                 }
                 catch { }
             }
-            return Get(guid);
+            return DockablePane.PaneIsRegistered(dpid);
         }
 
         public DockablePane Get(Guid guid)

@@ -59,14 +59,14 @@ namespace RevitAddin.Dockable.Example.Revit
                     var page = new DockablePage();
                     page.Loaded += (sender, args) =>
                     {
-                        Task.Run(async () =>
-                        {
-                            for (int i = 0; i < 60; i++)
-                            {
-                                await Task.Delay(1000);
-                                page.Number++;
-                            }
-                        });
+                        //Task.Run(async () =>
+                        //{
+                        //    for (int i = 0; i < 60; i++)
+                        //    {
+                        //        await Task.Delay(1000);
+                        //        page.Number++;
+                        //    }
+                        //});
                     };
                     DockablePaneCreatorService.Register(DockablePage.Guid3, "DockablePage3", page, Tabbed);
                 }
@@ -95,7 +95,7 @@ namespace RevitAddin.Dockable.Example.Revit
 
         private void Application_DockableFrameVisibilityChanged(object sender, Autodesk.Revit.UI.Events.DockableFrameVisibilityChangedEventArgs e)
         {
-            //Console.WriteLine($"{e.PaneId} {e.DockableFrameShown}");
+            Console.WriteLine($"{e.PaneId.Guid} {e.DockableFrameShown}");
         }
 
         public Result OnShutdown(UIControlledApplication application)
