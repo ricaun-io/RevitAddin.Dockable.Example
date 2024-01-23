@@ -28,8 +28,8 @@ namespace RevitAddin.Dockable.Example.Revit.Commands
         {
             UIApplication uiapp = commandData.Application;
 
-            App.DockablePaneService.Get(DockablePage.Guid2)?.Hide();
-            App.DockablePaneCreatorService.Get(DockablePage.Guid3)?.Hide();
+            App.DockablePaneCreatorService.Get(DockablePage2.Guid)?.Hide();
+            App.DockablePaneCreatorService.Get(DockablePage2.Guid3)?.Hide();
 
             return Result.Succeeded;
         }

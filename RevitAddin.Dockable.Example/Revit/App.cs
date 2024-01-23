@@ -38,7 +38,7 @@ namespace RevitAddin.Dockable.Example.Revit
 
                 // DockablePage2
                 {
-                    var page = new DockablePage();
+                    var page = new DockablePage2();
                     //page.Loaded += (sender, args) =>
                     //{
                     //    Task.Run(async () =>
@@ -50,13 +50,12 @@ namespace RevitAddin.Dockable.Example.Revit
                     //        }
                     //    });
                     //};
-                    var dockCreator = new DockablePaneProviderCreator(page, Tabbed);
-
-                    DockablePaneService.Register(DockablePage.Guid2, "DockablePage2", dockCreator);
+                    DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2", page, Tabbed);
                 }
 
                 {
-                    var page = new DockablePage();
+                    var page = new DockablePage2();
+                    page.Title = "DockablePage3";
                     page.Loaded += (sender, args) =>
                     {
                         //Task.Run(async () =>
@@ -68,7 +67,7 @@ namespace RevitAddin.Dockable.Example.Revit
                         //    }
                         //});
                     };
-                    DockablePaneCreatorService.Register(DockablePage.Guid3, "DockablePage3", page, Tabbed);
+                    DockablePaneCreatorService.Register(DockablePage2.Guid3, page, Tabbed);
                 }
             };
 
@@ -85,7 +84,9 @@ namespace RevitAddin.Dockable.Example.Revit
 
             ribbonPanel.RowStackedItems(
                     ribbonPanel.CreatePushButton<CommandShow2>("Show2").SetLargeImage("Resources/revit.ico"),
-                    ribbonPanel.CreatePushButton<CommandHide2>("Hide2").SetLargeImage("Resources/revit.ico")
+                    ribbonPanel.CreatePushButton<CommandHide2>("Hide2").SetLargeImage("Resources/revit.ico"),
+                    ribbonPanel.CreatePushButton<CommandBackground>("Background").SetLargeImage("Resources/revit.ico"),
+                    ribbonPanel.CreatePushButton<CommandViewStatic>("ViewStatic").SetLargeImage("Resources/revit.ico")
                 );
 
             application.DockableFrameVisibilityChanged += Application_DockableFrameVisibilityChanged;

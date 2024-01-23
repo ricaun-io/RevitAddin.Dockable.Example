@@ -1,14 +1,15 @@
-﻿using Autodesk.Revit.UI;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace RevitAddin.Dockable.Example.Views
 {
-    public partial class DockablePage : Page, IDockablePaneProvider
+    [PropertyChanged.AddINotifyPropertyChangedInterface]
+    public partial class DockablePage2 : Page
     {
-        public static Guid Guid => new Guid("F1F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
-        public DockablePage()
+        public static Guid Guid => new Guid("F2F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
+        public static Guid Guid3 => new Guid("F3F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
+        public DockablePage2()
         {
             this.Loaded += (s, e) => { Console.WriteLine($"Loaded:\t {this.GetHashCode()}"); };
             this.Unloaded += (s, e) => { Console.WriteLine($"Unloaded:\t {this.GetHashCode()}"); };
@@ -17,17 +18,19 @@ namespace RevitAddin.Dockable.Example.Views
             InitializeComponent();
         }
 
-        public void SetupDockablePane(DockablePaneProviderData data)
+        public int Number { get; set; }
+        public void OnNumberChanged()
         {
-            data.FrameworkElement = this;
-
-            data.InitialState = new DockablePaneState
+            if (this.Number % 2 == 0)
             {
-                DockPosition = DockPosition.Tabbed,
-            };
+                this.Background = System.Windows.Media.Brushes.LightSalmon;
+            }
+            else
+            {
+                this.Background = System.Windows.Media.Brushes.LightSkyBlue;
+            }
         }
 
-        public int Number { get; set; }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
