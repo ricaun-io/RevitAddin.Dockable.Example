@@ -34,7 +34,7 @@ namespace RevitAddin.Dockable.Example.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            button.Content = Number++;
+            button.Content = ++Number;
         }
     }
 }
