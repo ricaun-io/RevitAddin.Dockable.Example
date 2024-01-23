@@ -15,18 +15,19 @@ namespace RevitAddin.Dockable.Example.Services
             typeDockablePaneId = new Dictionary<Type, DockablePaneId>();
         }
 
-        public DockablePane Register<T>(Guid guid, T dockablePane) where T : IDockablePaneProvider
+        public bool Register<T>(Guid guid, T dockablePane) where T : IDockablePaneProvider
         {
             return Register(guid, null, dockablePane);
         }
 
-        public DockablePane Register<T>(Guid guid, string title, T dockablePane) where T : IDockablePaneProvider
+        public bool Register<T>(Guid guid, string title, T dockablePane) where T : IDockablePaneProvider
         {
             var dpid = new DockablePaneId(guid);
             if (DockablePane.PaneIsRegistered(dpid) == false)
             {
-                if (dockablePane is Page page)
-                    title = page.Title;
+                if (string.IsNullOrWhiteSpace(title))
+                    if (dockablePane is Page page)
+                        title = page.Title;
 
                 if (string.IsNullOrWhiteSpace(title))
                     title = dockablePane.ToString();
@@ -38,16 +39,16 @@ namespace RevitAddin.Dockable.Example.Services
                 }
                 catch { }
             }
-            return Get(guid);
+            return DockablePane.PaneIsRegistered(dpid);
         }
 
-        public DockablePane Register<T>(Guid guid, string title) where T : IDockablePaneProvider, new()
+        public bool Register<T>(Guid guid, string title) where T : IDockablePaneProvider, new()
         {
             var dockablePane = new T();
             return Register(guid, title, dockablePane);
         }
 
-        public DockablePane Register<T>(Guid guid) where T : IDockablePaneProvider, new()
+        public bool Register<T>(Guid guid) where T : IDockablePaneProvider, new()
         {
             return Register<T>(guid, null);
         }
