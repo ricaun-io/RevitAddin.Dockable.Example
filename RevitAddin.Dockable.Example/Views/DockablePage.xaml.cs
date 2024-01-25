@@ -22,7 +22,6 @@ namespace RevitAddin.Dockable.Example.Views
         {
             data.FrameworkElement = this;
 
-            data.EditorInteraction = new EditorInteraction() { InteractionType = EditorInteractionType.Dismiss };
             data.InitialState = new DockablePaneState
             {
                 DockPosition = DockPosition.Tabbed,

@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace RevitAddin.Dockable.Example.Services
 {
-    public class DockablePaneProviderCreator : IDockablePaneProvider
+    internal class DockablePaneProviderCreator : IDockablePaneProvider
     {
         private readonly IFrameworkElementCreator frameworkElementCreator;
         private readonly IDockablePaneProvider dockablePaneProvider;
@@ -47,18 +47,6 @@ namespace RevitAddin.Dockable.Example.Services
             {
                 return frameworkElement;
             }
-        }
-    }
-    public class DockablePaneProvider : IDockablePaneProvider
-    {
-        private readonly Action<DockablePaneProviderData> config;
-        public DockablePaneProvider(Action<DockablePaneProviderData> config)
-        {
-            this.config = config;
-        }
-        public void SetupDockablePane(DockablePaneProviderData data)
-        {
-            this.config?.Invoke(data);
         }
     }
 }
