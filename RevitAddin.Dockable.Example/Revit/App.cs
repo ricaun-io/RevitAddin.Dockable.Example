@@ -4,7 +4,6 @@ using RevitAddin.Dockable.Example.Revit.Commands;
 using RevitAddin.Dockable.Example.Services;
 using RevitAddin.Dockable.Example.Views;
 using ricaun.Revit.UI;
-using System.Threading.Tasks;
 
 namespace RevitAddin.Dockable.Example.Revit
 {
@@ -28,7 +27,7 @@ namespace RevitAddin.Dockable.Example.Revit
                 // DockablePage2
                 {
                     var page = new DockablePage2();
-                    DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2", page, new DockablePaneHideWhenFamilyDocument());
+                    DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2 - Hide Family Document", page, new DockablePaneHideWhenFamilyDocument());
                 }
 
                 {

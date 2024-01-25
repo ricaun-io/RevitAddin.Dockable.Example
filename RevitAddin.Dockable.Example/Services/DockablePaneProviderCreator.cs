@@ -18,11 +18,6 @@ namespace RevitAddin.Dockable.Example.Services
         {
             this.dockablePaneProvider = dockablePaneProvider;
         }
-
-        public DockablePaneProviderCreator(IFrameworkElementCreator frameworkElementCreator, Action<DockablePaneProviderData> config) : this(frameworkElementCreator, new DockablePaneProvider(config))
-        {
-        }
-
         public DockablePaneProviderCreator(FrameworkElement frameworkElement)
         {
             this.frameworkElementCreator = new FrameworkElementCreator(frameworkElement);
@@ -31,10 +26,6 @@ namespace RevitAddin.Dockable.Example.Services
         public DockablePaneProviderCreator(FrameworkElement frameworkElement, IDockablePaneProvider dockablePaneProvider) : this(frameworkElement)
         {
             this.dockablePaneProvider = dockablePaneProvider;
-        }
-
-        public DockablePaneProviderCreator(FrameworkElement frameworkElement, Action<DockablePaneProviderData> config) : this(frameworkElement, new DockablePaneProvider(config))
-        {
         }
 
         public void SetupDockablePane(DockablePaneProviderData data)

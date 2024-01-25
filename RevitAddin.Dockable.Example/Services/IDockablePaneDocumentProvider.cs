@@ -5,7 +5,7 @@ using System.Windows;
 namespace RevitAddin.Dockable.Example.Services
 {
     /// <summary>
-    /// IDockablePaneDocumentProvider
+    /// Interface that the Revit UI will call during the idling about add-in dockable pane windows.
     /// </summary>
     public interface IDockablePaneDocumentProvider
     {
