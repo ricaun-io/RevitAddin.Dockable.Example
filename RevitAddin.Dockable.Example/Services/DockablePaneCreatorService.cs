@@ -111,28 +111,28 @@ namespace RevitAddin.Dockable.Example.Services
         #region Register / Get
         public bool Register<T>(Guid guid, T element) where T : FrameworkElement
         {
-            return Register(guid, null, element, (IDockablePaneProvider)null);
+            return Register(guid, null, element);
         }
-
-        //public bool Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
-        //{
-        //    return Register(guid, null, element, new DockablePaneProvider(config));
-        //}
 
         public bool Register<T>(Guid guid, T element, IDockablePaneProvider dockablePaneProvider) where T : FrameworkElement
         {
             return Register(guid, null, element, dockablePaneProvider);
         }
 
-        //public bool Register<T>(Guid guid, string title, T element) where T : FrameworkElement
-        //{
-        //    return Register(guid, title, element, (IDockablePaneProvider)null);
-        //}
+        public bool Register<T>(Guid guid, T element, IDockablePaneDocumentProvider dockableDocumentPaneProvider) where T : FrameworkElement
+        {
+            return Register(guid, null, element, null, dockableDocumentPaneProvider);
+        }
 
-        //public bool Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
-        //{
-        //    return Register(guid, title, element, new DockablePaneProvider(config));
-        //}
+        public bool Register<T>(Guid guid, T element, IDockablePaneProvider dockablePaneProvider, IDockablePaneDocumentProvider dockableDocumentPaneProvider) where T : FrameworkElement
+        {
+            return Register(guid, null, element, dockablePaneProvider, dockableDocumentPaneProvider);
+        }
+
+        public bool Register<T>(Guid guid, string title, T element, IDockablePaneDocumentProvider dockableDocumentPaneProvider) where T : FrameworkElement
+        {
+            return Register(guid, title, element, null, dockableDocumentPaneProvider);
+        }
 
         public bool Register<T>(Guid guid, string title, T element,
             IDockablePaneProvider dockablePaneProvider = null,

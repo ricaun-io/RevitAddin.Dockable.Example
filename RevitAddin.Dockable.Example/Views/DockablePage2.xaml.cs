@@ -6,7 +6,7 @@ using System.Windows.Controls;
 namespace RevitAddin.Dockable.Example.Views
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public partial class DockablePage2 : Page, IDockablePaneDocumentProvider
+    public partial class DockablePage2 : Page
     {
         public static Guid Guid => new Guid("F2F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
         public static Guid Guid3 => new Guid("F3F1F1F1-1F1F-1F1F-1F1F-1F1F1F1F1F1F");
@@ -37,38 +37,6 @@ namespace RevitAddin.Dockable.Example.Views
         {
             var button = sender as Button;
             button.Content = ++Number;
-        }
-
-        private bool ForceToShow = false;
-        public void DockablePaneChanged(DockablePaneDocumentData data)
-        {
-            Console.WriteLine($"{data.DockablePaneId.Guid} \t {data.DockablePane.TryGetTitle()} - {data.DockablePane.TryIsShown()} \t {data.Document?.Title} \t {data.FrameworkElement == this}");
-
-            var isFamilyDocument = data.Document?.IsFamilyDocument == true;
-            if (data.DockablePane.TryIsShown())
-            {
-                ForceToShow = true;
-            }
-
-            if (isFamilyDocument)
-            {
-                data.DockablePane.TryHide();
-                return;
-            }
-
-            if (isFamilyDocument == false && ForceToShow)
-            {
-                data.DockablePane.TryShow();
-                return;
-            }
-
-            if (data.DockablePane.TryIsShown() == false && data.Document != null)
-            {
-                if (isFamilyDocument == false)
-                {
-                    ForceToShow = false;
-                }
-            }
         }
     }
 }
