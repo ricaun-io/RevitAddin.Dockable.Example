@@ -10,12 +10,14 @@ namespace RevitAddin.Dockable.Example.Services
     {
         private readonly UIControlledApplication application;
         private readonly Dictionary<DockablePaneId, FrameworkElement> paneIdFrameworkElements;
+        private readonly Dictionary<DockablePaneId, IDockablePaneDocumentProvider> dockablePaneDocumentProvider;
         private bool HasInitialized;
 
         public DockablePaneCreatorService(UIControlledApplication application)
         {
             this.application = application;
             this.paneIdFrameworkElements = new Dictionary<DockablePaneId, FrameworkElement>();
+            this.dockablePaneDocumentProvider = new Dictionary<DockablePaneId, IDockablePaneDocumentProvider>();
         }
 
         public void Initialize()
@@ -26,6 +28,7 @@ namespace RevitAddin.Dockable.Example.Services
             HasInitialized = true;
 
             application.DockableFrameVisibilityChanged += Application_DockableFrameVisibilityChanged;
+            application.Idling += Application_Idling;
         }
 
         public void Dispose()
@@ -36,18 +39,76 @@ namespace RevitAddin.Dockable.Example.Services
             HasInitialized = false;
 
             application.DockableFrameVisibilityChanged -= Application_DockableFrameVisibilityChanged;
+            application.Idling -= Application_Idling;
 
             this.paneIdFrameworkElements.Clear();
+            this.dockablePaneDocumentProvider.Clear();
         }
+
+        Queue<DockablePaneId> dockablePaneIds = new Queue<DockablePaneId>();
         private void Application_DockableFrameVisibilityChanged(object sender, Autodesk.Revit.UI.Events.DockableFrameVisibilityChangedEventArgs e)
         {
             var paneId = e.PaneId;
-            if (GetFrameworkElement(paneId) is UIElement element)
+            dockablePaneIds.Enqueue(paneId);
+        }
+
+        private void ExecutePaneDocumentProviderChanged(UIApplication uiapp, DockablePaneId dockablePaneId)
+        {
+            if (GetFrameworkElement(dockablePaneId) is FrameworkElement element)
             {
-                //element.Visibility = e.DockableFrameShown ? Visibility.Visible : Visibility.Hidden;
+                dockablePaneDocumentProvider.TryGetValue(dockablePaneId, out IDockablePaneDocumentProvider documentProvider);
+                var document = uiapp.ActiveUIDocument?.Document;
+
+                var data = new DockablePaneDocumentData(dockablePaneId, element, document, Get(dockablePaneId));
+                documentProvider?.DockablePaneChanged(data);
             }
         }
 
+        private void Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+        {
+            var uiapp = sender as UIApplication;
+
+            if (ActiveDocumentChanged(uiapp))
+            {
+                foreach (var dpid in paneIdFrameworkElements.Keys)
+                {
+                    ExecutePaneDocumentProviderChanged(uiapp, dpid);
+                }
+            }
+
+            while (dockablePaneIds.Dequeue() is DockablePaneId dpid)
+            {
+                ExecutePaneDocumentProviderChanged(uiapp, dpid);
+            }
+        }
+
+        #region ActiveDocument
+        private bool IsEquals(Autodesk.Revit.DB.Document a, Autodesk.Revit.DB.Document b)
+        {
+            if (a is null && b is null) return true;
+            if (a is null || b is null) return false;
+
+            if (!a.IsValidObject || !b.IsValidObject)
+                return false;
+
+            return a.GetHashCode() == b.GetHashCode();
+        }
+
+        private Autodesk.Revit.DB.Document ActiveDocument;
+        private bool ActiveDocumentChanged(UIApplication uiapp)
+        {
+            var document = uiapp.ActiveUIDocument?.Document;
+
+            if (IsEquals(document, ActiveDocument))
+                return false;
+
+            ActiveDocument = document;
+
+            return true;
+        }
+        #endregion
+
+        #region Register / Get
         public bool Register<T>(Guid guid, T element) where T : FrameworkElement
         {
             return Register(guid, null, element, (IDockablePaneProvider)null);
@@ -128,5 +189,6 @@ namespace RevitAddin.Dockable.Example.Services
 
             return null;
         }
+        #endregion
     }
 }

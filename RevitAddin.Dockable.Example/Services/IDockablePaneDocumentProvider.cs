@@ -29,7 +29,7 @@ namespace RevitAddin.Dockable.Example.Services
         /// <param name="frameworkElement"></param>
         /// <param name="document"></param>
         /// <param name="dockablePane"></param>
-        DockablePaneDocumentData(DockablePaneId dockablePaneId, FrameworkElement frameworkElement, Document document, DockablePane dockablePane)
+        public DockablePaneDocumentData(DockablePaneId dockablePaneId, FrameworkElement frameworkElement, Document document, DockablePane dockablePane)
         {
             DockablePaneId = dockablePaneId;
             FrameworkElement = frameworkElement;
