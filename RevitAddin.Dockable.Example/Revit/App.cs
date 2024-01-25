@@ -52,7 +52,7 @@ namespace RevitAddin.Dockable.Example.Revit
                     //        }
                     //    });
                     //};
-                    DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2", page, Tabbed);
+                    DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2", page);
                 }
 
                 {
@@ -69,7 +69,7 @@ namespace RevitAddin.Dockable.Example.Revit
                         //    }
                         //});
                     };
-                    DockablePaneCreatorService.Register(DockablePage2.Guid3, page, Tabbed);
+                    DockablePaneCreatorService.Register(DockablePage2.Guid3, page);
                 }
             };
 
@@ -98,7 +98,7 @@ namespace RevitAddin.Dockable.Example.Revit
 
         private void Application_DockableFrameVisibilityChanged(object sender, Autodesk.Revit.UI.Events.DockableFrameVisibilityChangedEventArgs e)
         {
-            Console.WriteLine($"{e.PaneId.Guid} {e.DockableFrameShown}");
+            //Console.WriteLine($"{e.PaneId.Guid} {e.DockableFrameShown}");
         }
 
         public Result OnShutdown(UIControlledApplication application)

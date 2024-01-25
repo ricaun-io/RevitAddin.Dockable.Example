@@ -45,5 +45,18 @@ namespace RevitAddin.Dockable.Example.Services
                 return string.Empty;
             return dockablePane.GetTitle();
         }
+
+        /// <summary>
+        /// Identify the pane is currently visible or in a tab.
+        /// </summary>
+        /// <param name="dockablePane"></param>
+        /// <returns></returns>
+        /// <remarks>If <paramref name="dockablePane"/> is null, false is return.</remarks>
+        public static bool TryIsShown(this DockablePane dockablePane)
+        {
+            if (dockablePane is null)
+                return false;
+            return dockablePane.IsShown();
+        }
     }
 }

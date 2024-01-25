@@ -114,27 +114,29 @@ namespace RevitAddin.Dockable.Example.Services
             return Register(guid, null, element, (IDockablePaneProvider)null);
         }
 
-        public bool Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
-        {
-            return Register(guid, null, element, new DockablePaneProvider(config));
-        }
+        //public bool Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
+        //{
+        //    return Register(guid, null, element, new DockablePaneProvider(config));
+        //}
 
         public bool Register<T>(Guid guid, T element, IDockablePaneProvider dockablePaneProvider) where T : FrameworkElement
         {
             return Register(guid, null, element, dockablePaneProvider);
         }
 
-        public bool Register<T>(Guid guid, string title, T element) where T : FrameworkElement
-        {
-            return Register(guid, title, element, (IDockablePaneProvider)null);
-        }
+        //public bool Register<T>(Guid guid, string title, T element) where T : FrameworkElement
+        //{
+        //    return Register(guid, title, element, (IDockablePaneProvider)null);
+        //}
 
-        public bool Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
-        {
-            return Register(guid, title, element, new DockablePaneProvider(config));
-        }
+        //public bool Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
+        //{
+        //    return Register(guid, title, element, new DockablePaneProvider(config));
+        //}
 
-        public bool Register<T>(Guid guid, string title, T element, IDockablePaneProvider dockablePaneProvider) where T : FrameworkElement
+        public bool Register<T>(Guid guid, string title, T element,
+            IDockablePaneProvider dockablePaneProvider = null,
+            IDockablePaneDocumentProvider dockableDocumentPaneProvider = null) where T : FrameworkElement
         {
             var dpid = new DockablePaneId(guid);
             if (DockablePane.PaneIsRegistered(dpid) == false)
@@ -149,11 +151,18 @@ namespace RevitAddin.Dockable.Example.Services
                 if (dockablePaneProvider is null)
                     dockablePaneProvider = element as IDockablePaneProvider;
 
+                if (dockableDocumentPaneProvider is null)
+                    dockableDocumentPaneProvider = element as IDockablePaneDocumentProvider;
+
+                if (dockableDocumentPaneProvider is null)
+                    dockableDocumentPaneProvider = dockablePaneProvider as IDockablePaneDocumentProvider;
+
                 try
                 {
                     var creator = new DockablePaneProviderCreator(element, dockablePaneProvider);
                     application.RegisterDockablePane(dpid, title, creator);
                     paneIdFrameworkElements[dpid] = element;
+                    dockablePaneDocumentProvider[dpid] = dockableDocumentPaneProvider;
                 }
                 catch { }
             }
