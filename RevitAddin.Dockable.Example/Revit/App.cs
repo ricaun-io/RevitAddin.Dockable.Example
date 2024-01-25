@@ -25,7 +25,9 @@ namespace RevitAddin.Dockable.Example.Revit
 
             application.ControlledApplication.ApplicationInitialized += (sender, args) =>
             {
-                DockablePaneService.Register<DockablePage>(DockablePage.Guid);
+                //DockablePaneService.Register<DockablePage>(DockablePage.Guid);
+
+                DockablePaneCreatorService.Register(DockablePage.Guid, "DockablePage", new DockablePage());
 
                 Action<DockablePaneProviderData> Tabbed = (data) =>
                 {

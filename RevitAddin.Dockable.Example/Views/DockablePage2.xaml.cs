@@ -14,6 +14,7 @@ namespace RevitAddin.Dockable.Example.Views
             this.Loaded += (s, e) => { Console.WriteLine($"Loaded:\t {this.GetHashCode()}"); };
             this.Unloaded += (s, e) => { Console.WriteLine($"Unloaded:\t {this.GetHashCode()}"); };
             this.IsVisibleChanged += (s, e) => { Console.WriteLine($"IsVisibleChanged:\t {this.GetHashCode()} \t{this.IsVisible}"); };
+            this.IsEnabledChanged += (s, e) => { Console.WriteLine($"IsEnabledChanged:\t {this.GetHashCode()} \t{this.IsEnabled}"); };
 
             InitializeComponent();
         }

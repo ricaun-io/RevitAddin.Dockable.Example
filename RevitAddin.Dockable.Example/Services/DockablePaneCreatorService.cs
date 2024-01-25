@@ -50,20 +50,30 @@ namespace RevitAddin.Dockable.Example.Services
 
         public bool Register<T>(Guid guid, T element) where T : FrameworkElement
         {
-            return Register(guid, null, element, null);
+            return Register(guid, null, element, (IDockablePaneProvider)null);
         }
 
         public bool Register<T>(Guid guid, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
         {
-            return Register(guid, null, element, config);
+            return Register(guid, null, element, new DockablePaneProvider(config));
+        }
+
+        public bool Register<T>(Guid guid, T element, IDockablePaneProvider dockablePaneProvider) where T : FrameworkElement
+        {
+            return Register(guid, null, element, dockablePaneProvider);
         }
 
         public bool Register<T>(Guid guid, string title, T element) where T : FrameworkElement
         {
-            return Register(guid, title, element, null);
+            return Register(guid, title, element, (IDockablePaneProvider)null);
         }
 
         public bool Register<T>(Guid guid, string title, T element, Action<DockablePaneProviderData> config) where T : FrameworkElement
+        {
+            return Register(guid, title, element, new DockablePaneProvider(config));
+        }
+
+        public bool Register<T>(Guid guid, string title, T element, IDockablePaneProvider dockablePaneProvider) where T : FrameworkElement
         {
             var dpid = new DockablePaneId(guid);
             if (DockablePane.PaneIsRegistered(dpid) == false)
@@ -75,9 +85,12 @@ namespace RevitAddin.Dockable.Example.Services
                 if (string.IsNullOrWhiteSpace(title))
                     title = element.ToString();
 
+                if (dockablePaneProvider is null)
+                    dockablePaneProvider = element as IDockablePaneProvider;
+
                 try
                 {
-                    var creator = new DockablePaneProviderCreator(element, config);
+                    var creator = new DockablePaneProviderCreator(element, dockablePaneProvider);
                     application.RegisterDockablePane(dpid, title, creator);
                     paneIdFrameworkElements[dpid] = element;
                 }
