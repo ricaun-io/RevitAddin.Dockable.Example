@@ -17,11 +17,8 @@ namespace RevitAddin.Dockable.Example.Revit
             DockablePaneCreatorService = new DockablePaneCreatorService(application);
             DockablePaneCreatorService.Initialize();
 
-
             application.ControlledApplication.ApplicationInitialized += (sender, args) =>
             {
-                //DockablePaneService.Register<DockablePage>(DockablePage.Guid);
-
                 DockablePaneCreatorService.Register(DockablePage.Guid, "DockablePage", new DockablePage());
 
                 // DockablePage2
@@ -30,6 +27,7 @@ namespace RevitAddin.Dockable.Example.Revit
                     DockablePaneCreatorService.Register(DockablePage2.Guid, "DockablePage2 - Hide Family Document", page, new DockablePaneHideWhenFamilyDocument());
                 }
 
+                // DockablePage3
                 {
                     var page = new DockablePage2();
                     page.Title = "DockablePage3";
@@ -55,14 +53,7 @@ namespace RevitAddin.Dockable.Example.Revit
                     ribbonPanel.CreatePushButton<CommandViewStatic>("ViewStatic").SetLargeImage("Resources/revit.ico")
                 );
 
-            application.DockableFrameVisibilityChanged += Application_DockableFrameVisibilityChanged;
-
             return Result.Succeeded;
-        }
-
-        private void Application_DockableFrameVisibilityChanged(object sender, Autodesk.Revit.UI.Events.DockableFrameVisibilityChangedEventArgs e)
-        {
-            //Console.WriteLine($"{e.PaneId.Guid} {e.DockableFrameShown}");
         }
 
         public Result OnShutdown(UIControlledApplication application)
@@ -70,8 +61,6 @@ namespace RevitAddin.Dockable.Example.Revit
             ribbonPanel?.Remove();
 
             DockablePaneCreatorService.Dispose();
-
-            application.DockableFrameVisibilityChanged -= Application_DockableFrameVisibilityChanged;
 
             return Result.Succeeded;
         }
