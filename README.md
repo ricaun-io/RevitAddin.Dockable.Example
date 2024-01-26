@@ -170,6 +170,12 @@ DockablePane dockablePane = App.DockablePaneService.Get<DockablePage>();
 
 ![RevitAddin.Dockable.Example](https://github.com/ricaun-io/RevitAddin.Dockable.Example/assets/12437519/ead73dc2-5159-49dc-8de9-6fc2ac9e414f)
 
+## Video
+
+Video in english about this project.
+
+[![VideoIma1]][Video1] [![VideoIma2]][Video2]
+
 ## License
 
 This project is [licensed](LICENSE) under the [MIT Licence](https://en.wikipedia.org/wiki/MIT_License).
@@ -177,3 +183,8 @@ This project is [licensed](LICENSE) under the [MIT Licence](https://en.wikipedia
 ---
 
 Do you like this project? Please [star this project on GitHub](../../stargazers)!
+
+[Video1]: https://youtu.be/xf9702Bx09s
+[VideoIma1]: https://img.youtube.com/vi/xf9702Bx09s/mqdefault.jpg
+[Video2]: https://youtu.be/mlUsY8_caBE
+[VideoIma2]: https://img.youtube.com/vi/mlUsY8_caBE/mqdefault.jpg
