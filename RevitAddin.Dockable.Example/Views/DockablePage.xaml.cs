@@ -20,11 +20,10 @@ namespace RevitAddin.Dockable.Example.Views
 
         public void SetupDockablePane(DockablePaneProviderData data)
         {
-            data.FrameworkElement = this;
-
+            data.VisibleByDefault = true;
             data.InitialState = new DockablePaneState
             {
-                DockPosition = DockPosition.Tabbed,
+                DockPosition = DockPosition.Bottom,
             };
         }
 
