@@ -73,6 +73,9 @@ The `IDockablePaneDocumentProvider` is the interface to detect when the `Dockabl
 ### Register
 
 To `Register` a `DockablePane` in Revit, you need to provide the `Guid` of the `DockablePane` and the `Page`, the best place to do this is in the `ApplicationInitialized` event.
+
+**The `Register` of a `DockablePane` only works before Revit finish initialize, or in the `ApplicationInitialized` event.**
+
 ```C#
 application.ControlledApplication.ApplicationInitialized += (sender, args) =>
 {
